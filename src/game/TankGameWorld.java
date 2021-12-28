@@ -12,7 +12,7 @@ import javafx.scene.input.*;
 public class TankGameWorld extends GameWorld {
 
     private final double wallWidth = 5;
-    private final boolean mouseAim = true;
+    private final boolean mouseAim = false;
     public Player myPlayer;
 
     public TankGameWorld(int fps, String title) {
@@ -56,6 +56,26 @@ public class TankGameWorld extends GameWorld {
             };
         }
         primaryStage.getScene().setOnMousePressed(fire);
+
+        EventHandler<KeyEvent> move = keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.W) {
+                // Move forward
+                myPlayer.move(3);
+            }
+            if (keyEvent.getCode() == KeyCode.S) {
+                // Move backward
+                myPlayer.move(-3);
+            }
+            if (keyEvent.getCode() == KeyCode.A) {
+                // Rotate CCW
+                myPlayer.turn(-5);
+            }
+            if (keyEvent.getCode() == KeyCode.D) {
+                // Rotate CW
+                myPlayer.turn(5);
+            }
+        };
+        primaryStage.getScene().setOnKeyPressed(move);
     }
 
     @Override
