@@ -84,10 +84,18 @@ public abstract class Sprite {
         Rectangle otherRect = other.collisionBounds;
         Rectangle thisRect = collisionBounds;
 
-        return !(thisRect.getX() + thisRect.getWidth() < otherRect.getX() ||
-                thisRect.getY() + thisRect.getHeight() < otherRect.getY() ||
-                thisRect.getX() > otherRect.getX() + otherRect.getWidth() ||
-                thisRect.getY() > otherRect.getY() + otherRect.getHeight());
+        return !(thisRect.getTranslateX() + thisRect.getWidth() < otherRect.getTranslateX() ||
+                thisRect.getTranslateY() + thisRect.getHeight() < otherRect.getTranslateY() ||
+                thisRect.getTranslateX() > otherRect.getTranslateX() + otherRect.getWidth() ||
+                thisRect.getTranslateY() > otherRect.getTranslateY() + otherRect.getHeight());
+    }
+
+    // Update position of both the node (which is displayed, and the collision boundary)
+    public void updatePosition(double distanceX, double distanceY) {
+        node.setTranslateX(node.getTranslateX() + distanceX);
+        node.setTranslateY(node.getTranslateY() + distanceY);
+        collisionBounds.setTranslateX(collisionBounds.getTranslateX() + distanceX);
+        collisionBounds.setTranslateY(collisionBounds.getTranslateY() + distanceY);
     }
 
     public void initalizeHealth(double health) {

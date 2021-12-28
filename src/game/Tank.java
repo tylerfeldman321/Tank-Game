@@ -5,8 +5,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-import java.util.*;
-
 public class Tank extends Sprite {
     double tankRadius = 10;
     double frontAngle = 0;
@@ -23,11 +21,14 @@ public class Tank extends Sprite {
         circle.setFill(Color.BLACK);
         node = circle;
 
+        // Set the collision bounds to the square circumscribed in the circle.
+        // This is so that bullets won't collide with the tank that fired it
+        double circumscribedLength = tankRadius / Math.sqrt(2);
         Rectangle rect = new Rectangle();
-        rect.setX(centerX - tankRadius);
-        rect.setY(centerY - tankRadius);
-        rect.setWidth(2 * tankRadius);
-        rect.setHeight(2 * tankRadius);
+        rect.setTranslateX(centerX - circumscribedLength);
+        rect.setTranslateY(centerY - circumscribedLength);
+        rect.setWidth(2 * circumscribedLength);
+        rect.setHeight(2 * circumscribedLength);
         collisionBounds = rect;
 
         initalizeHealth(100);

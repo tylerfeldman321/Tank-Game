@@ -13,16 +13,14 @@ public class Bullet extends Sprite {
 
     public Bullet(double radius, double centerX, double centerY, double vX, double vY) {
         Rectangle rect = new Rectangle();
-        rect.setX(centerX - radius);
-        rect.setY(centerY - radius);
+        rect.setTranslateX(centerX - radius);
+        rect.setTranslateY(centerY - radius);
         rect.setWidth(2 * radius);
         rect.setHeight(2 * radius);
         collisionBounds = rect;
 
         Circle circle = new Circle();
         circle.setRadius(radius);
-        circle.setCenterX(0);
-        circle.setCenterY(0);
         circle.setTranslateX(centerX);
         circle.setTranslateY(centerY);
         circle.setFill(Color.BLACK);
@@ -38,14 +36,7 @@ public class Bullet extends Sprite {
 
     @Override
     public void update() {
-        node.setTranslateX(node.getTranslateX() + vX);
-        node.setTranslateY(node.getTranslateY() + vY);
-        collisionBounds.setX(collisionBounds.getX() + vX);
-        collisionBounds.setY(collisionBounds.getY() + vY);
-    }
-
-    public void handleDeath(GameWorld gameWorld) {
-        super.handleDeath(gameWorld);
+        updatePosition(vX, vY);
     }
 
     @Override
@@ -64,12 +55,12 @@ public class Bullet extends Sprite {
         Rectangle wallBounds = other.collisionBounds;
         Rectangle bulletBounds = collisionBounds;
 
-        double intersectionUpper = Math.max(wallBounds.getY(), bulletBounds.getY());
-        double intersectionLower = Math.min(wallBounds.getY()+wallBounds.getHeight(),
-                bulletBounds.getY()+wallBounds.getHeight());
-        double intersectionLeft = Math.max(wallBounds.getX(), bulletBounds.getX());
-        double intersectionRight = Math.min(wallBounds.getX()+wallBounds.getWidth(),
-                bulletBounds.getX()+wallBounds.getWidth());
+        double intersectionUpper = Math.max(wallBounds.getTranslateY(), bulletBounds.getTranslateY());
+        double intersectionLower = Math.min(wallBounds.getTranslateY()+wallBounds.getHeight(),
+                bulletBounds.getTranslateY()+wallBounds.getHeight());
+        double intersectionLeft = Math.max(wallBounds.getTranslateX(), bulletBounds.getTranslateX());
+        double intersectionRight = Math.min(wallBounds.getTranslateX()+wallBounds.getWidth(),
+                bulletBounds.getTranslateX()+wallBounds.getWidth());
         double intersectionHeight = intersectionLower - intersectionUpper;
         double intersectionWidth = intersectionRight - intersectionLeft;
 

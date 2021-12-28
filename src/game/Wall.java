@@ -16,16 +16,16 @@ public class Wall extends Sprite {
         // Line is vertical
         if (startX == endX)
         {
-            rect.setX(startX);
-            rect.setY(Math.min(startY, endY));
+            rect.setTranslateX(startX);
+            rect.setTranslateY(Math.min(startY, endY));
             rect.setWidth(width);
             rect.setHeight(Math.abs(startY - endY));
         }
         // Line is horizontal
         else if (startY == endY)
         {
-            rect.setX(Math.min(startX, endX));
-            rect.setY(startY);
+            rect.setTranslateX(Math.min(startX, endX));
+            rect.setTranslateY(startY);
             rect.setHeight(width);
             rect.setWidth(Math.abs(startX - endX));
         }
