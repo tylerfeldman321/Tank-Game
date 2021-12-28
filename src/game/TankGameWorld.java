@@ -12,7 +12,7 @@ import javafx.scene.input.*;
 public class TankGameWorld extends GameWorld {
 
     private final double wallWidth = 5;
-    private final boolean mouseAim = false;
+    private final boolean mouseAim = true;
     public Player myPlayer;
 
     public TankGameWorld(int fps, String title) {
@@ -39,30 +39,23 @@ public class TankGameWorld extends GameWorld {
     }
 
     private void setupInput(Stage primaryStage) {
+        EventHandler<MouseEvent> fire = null;
         if (mouseAim) {
-            EventHandler<MouseEvent> fire = new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if (event.getButton() == MouseButton.PRIMARY && myPlayer.isAlive()) {
-                        Bullet bullet = myPlayer.fire(event.getX(), event.getY());
-                        addSprites(bullet);
-                    }
+            fire = event -> {
+                if (event.getButton() == MouseButton.PRIMARY && myPlayer.isAlive()) {
+                    Bullet bullet = myPlayer.fire(event.getX(), event.getY());
+                    addSprites(bullet);
                 }
             };
-            primaryStage.getScene().setOnMousePressed(fire);
-        }
-        else {
-            EventHandler<KeyEvent> fire = new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent event) {
-                    if (event.getCode() == KeyCode.SPACE && myPlayer.isAlive()) {
-                        Bullet bullet = myPlayer.fire();
-                        addSprites(bullet);
-                    }
+        } else {
+            fire = event -> {
+                if (event.getButton() == MouseButton.PRIMARY && myPlayer.isAlive()) {
+                    Bullet bullet = myPlayer.fire();
+                    addSprites(bullet);
                 }
             };
-            primaryStage.getScene().setOnKeyPressed(fire);
         }
+        primaryStage.getScene().setOnMousePressed(fire);
     }
 
     @Override
@@ -84,7 +77,6 @@ public class TankGameWorld extends GameWorld {
             spriteB.collision(spriteA, this);
             return true;
         }
-
         return false;
     }
 
