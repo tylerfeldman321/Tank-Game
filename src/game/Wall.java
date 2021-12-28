@@ -33,7 +33,7 @@ public class Wall extends Sprite {
         collisionBounds = rect;
         node = rect;
 
-        initalizeHealth(10);
+        initializeHealth(10);
         damage = 0;
         isInvincible = true;
     }

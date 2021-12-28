@@ -30,7 +30,7 @@ public class Bullet extends Sprite {
         this.vX = vX;
         this.vY = vY;
 
-        initalizeHealth(0);
+        initializeHealth(0);
         damage = 10;
     }
 

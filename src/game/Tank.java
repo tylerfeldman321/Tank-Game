@@ -32,7 +32,7 @@ public class Tank extends Sprite {
         rect.setHeight(2 * circumscribedLength);
         collisionBounds = rect;
 
-        initalizeHealth(tankHealth);
+        initializeHealth(tankHealth);
         damage = 0;
     }
 

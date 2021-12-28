@@ -7,11 +7,12 @@ public class Player extends Tank {
 
     public Player(double centerX, double centerY) {
         super(centerX, centerY);
-        initalizeHealth(playerHealth);
+        initializeHealth(playerHealth);
     }
 
     @Override
     public void handleDeath(GameWorld gameWorld) {
         gameWorld.getSpriteManager().addSpritesToBeRemoved(this);
+        // On death, signal game end
     }
 }
