@@ -1,5 +1,6 @@
 package game;
 
+import engine.GameWorld;
 import engine.Sprite;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -36,7 +37,7 @@ public class Tank extends Sprite {
         damage = 0;
     }
 
-    public void update() { ; }
+    public void update(GameWorld gameWorld) { ; }
 
     public Bullet fire(double x, double y) {
         double deltaX = node.getTranslateX() - x;

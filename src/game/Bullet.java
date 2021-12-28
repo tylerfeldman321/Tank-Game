@@ -32,11 +32,13 @@ public class Bullet extends Sprite {
 
         initializeHealth(0);
         damage = 10;
+        lifetime = 5;
     }
 
     @Override
-    public void update() {
+    public void update(GameWorld gameWorld) {
         updatePosition(vX, vY);
+        checkDuration(gameWorld);
     }
 
     @Override
@@ -69,6 +71,5 @@ public class Bullet extends Sprite {
         } else {
             vY = -vY;
         }
-
     }
 }

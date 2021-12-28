@@ -80,7 +80,7 @@ public class TankGameWorld extends GameWorld {
 
     @Override
     protected void handleUpdate(Sprite sprite) {
-        sprite.update();
+        sprite.update(this);
     }
 
     @Override

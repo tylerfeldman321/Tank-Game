@@ -3,7 +3,6 @@ package game;
 import engine.GameWorld;
 import engine.Sprite;
 
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 public class Wall extends Sprite {
@@ -39,5 +38,5 @@ public class Wall extends Sprite {
     }
 
     @Override
-    public void update() { }
+    public void update(GameWorld gameWorld) { }
 }

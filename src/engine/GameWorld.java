@@ -60,9 +60,9 @@ public abstract class GameWorld {
     private final SoundManager soundManager = new SoundManager(3);
 
     /**
-     * Which frame we are on
+     * Seconds elapsed according to the number of frames ran
      */
-    private double frameNum = 0;
+    private double secondsElapsed = 0;
 
     /**
      * Constructor that is called by the derived class. This will
@@ -99,7 +99,7 @@ public abstract class GameWorld {
                         // removed dead things
                         cleanupSprites();
 
-                        frameNum++;
+                        secondsElapsed+=(1/(double)framesPerSecond);
                     }
                 }); // oneFrame
 
@@ -107,12 +107,6 @@ public abstract class GameWorld {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.getKeyFrames().add(oneFrame);
         setGameLoop(timeline);
-
-        // sets the game world's game loop (Timeline)
-        // setGameLoop(TimelineBuilder.create()
-        //         .cycleCount(Animation.INDEFINITE)
-        //         .keyFrames(oneFrame)
-        //         .build());
     }
 
     /**
@@ -149,7 +143,7 @@ public abstract class GameWorld {
      * @param sprite - The sprite to update.
      */
     protected void handleUpdate(Sprite sprite) {
-        sprite.update();
+        sprite.update(this);
     }
 
     /**
@@ -305,10 +299,18 @@ public abstract class GameWorld {
         getSoundManager().shutdown();
     }
 
+    public double getSecondsElapsed() {
+        return secondsElapsed;
+    }
+
+    /**
+     * Adds sprites to the sprite manager so that it's updated and checked for collisions and adds
+     * the sprites to the scene nodes so that they are displayed in the scene
+     *
+     * @param sprites Variable number of sprites that will be added
+     */
     protected void addSprites(Sprite... sprites) {
-        // Add the sprite to the spriteManager so that it's updated and checked for collisions
         getSpriteManager().addSprites(sprites);
-        // Add sprite to be displayed in scene
         for (Sprite sprite : Arrays.asList(sprites)) {
             getSceneNodes().getChildren().add(0, sprite.node);
         }

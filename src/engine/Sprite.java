@@ -64,9 +64,19 @@ public abstract class Sprite {
     public double damage = 0;
 
     /**
+     * Duration in seconds. If -1, then it will last until collision
+     */
+    public double lifetime = -1;
+
+    /**
+     * Time of initialization in seconds
+     */
+    public double initializationTime = -1;
+
+    /**
      * Updates this sprite object's velocity, or animations.
      */
-    public abstract void update();
+    public abstract void update(GameWorld gameWorld);
 
 
     /**
@@ -90,6 +100,15 @@ public abstract class Sprite {
                 thisRect.getTranslateY() > otherRect.getTranslateY() + otherRect.getHeight());
     }
 
+    protected void checkDuration(GameWorld gameWorld) {
+        double currentTime = gameWorld.getSecondsElapsed();
+        if (initializationTime == -1) initializationTime = currentTime;
+        if (lifetime != -1) {
+            double timeAlive = currentTime - initializationTime;
+            if (timeAlive > lifetime) handleDeath(gameWorld);
+        }
+    }
+
     // Update position of both the node (which is displayed, and the collision boundary)
     public void updatePosition(double distanceX, double distanceY) {
         node.setTranslateX(node.getTranslateX() + distanceX);
@@ -98,7 +117,7 @@ public abstract class Sprite {
         collisionBounds.setTranslateY(collisionBounds.getTranslateY() + distanceY);
     }
 
-    public void initalizeHealth(double health) {
+    public void initializeHealth(double health) {
         maxHP = health;
         currentHP = health;
     }
@@ -107,7 +126,7 @@ public abstract class Sprite {
         gameWorld.getSpriteManager().addSpritesToBeRemoved(this);
     }
 
-    private void updateCurrentHealth(double damage) {
+    protected void updateCurrentHealth(double damage) {
         if (!isInvincible) {
             currentHP -= damage;
             if (currentHP <= 0) isDead = true;
