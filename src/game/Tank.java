@@ -6,8 +6,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class Tank extends Sprite {
+    double tankHealth = 10;
     double tankRadius = 10;
-    double frontAngle = 0;
+    double frontAngleDegrees = 0; // Degrees
     double bulletRadius = 5;
     double bulletVelocity = 5;
 
@@ -31,7 +32,7 @@ public class Tank extends Sprite {
         rect.setHeight(2 * circumscribedLength);
         collisionBounds = rect;
 
-        initalizeHealth(100);
+        initalizeHealth(tankHealth);
         damage = 0;
     }
 
@@ -40,31 +41,44 @@ public class Tank extends Sprite {
     public Bullet fire(double x, double y) {
         double deltaX = node.getTranslateX() - x;
         double deltaY = node.getTranslateY() - y;
-        double angle = Math.atan2(deltaY, deltaX) + Math.PI;
-        return fire(angle);
+        double angleDegrees = Math.toDegrees(Math.atan2(deltaY, deltaX) + Math.PI);
+        return fire(angleDegrees);
     }
 
     public Bullet fire() {
-        return fire(frontAngle);
+        return fire(frontAngleDegrees);
     }
 
-    public Bullet fire(double angle) {
+    public Bullet fire(double angleDegrees) {
+        double angleRadians = Math.toRadians(angleDegrees);
 
         Bullet bullet;
 
         double radiusSum = tankRadius + bulletRadius;
-        double offsetX = radiusSum * Math.cos(angle);
-        double offsetY = radiusSum * Math.sin(angle);
+        double offsetX = radiusSum * Math.cos(angleRadians);
+        double offsetY = radiusSum * Math.sin(angleRadians);
 
         double bulletX = node.getTranslateX() + offsetX;
         double bulletY = node.getTranslateY() + offsetY;
 
-        double bulletVX = bulletVelocity * Math.cos(angle);
-        double bulletVY = bulletVelocity * Math.sin(angle);
+        double bulletVX = bulletVelocity * Math.cos(angleRadians);
+        double bulletVY = bulletVelocity * Math.sin(angleRadians);
 
         bullet = new Bullet(bulletRadius, bulletX, bulletY, bulletVX, bulletVY);
 
         return bullet;
     }
+
+    public void move(double distance) {
+        double angleRadians = Math.toRadians(frontAngleDegrees);
+        double distanceX = distance * Math.cos(angleRadians);
+        double distanceY = distance * Math.sin(angleRadians);
+        updatePosition(distanceX, distanceY);
+    }
+
+    public void turn(int degrees) {
+        frontAngleDegrees += degrees;
+    }
+
 
 }
