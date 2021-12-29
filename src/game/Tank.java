@@ -25,8 +25,6 @@ public class Tank extends Sprite {
     public Tank(double centerX, double centerY) {
         Circle circle = new Circle();
         circle.setRadius(tankRadius);
-        circle.setCenterX(0);
-        circle.setCenterY(0);
         circle.setTranslateX(centerX);
         circle.setTranslateY(centerY);
         circle.setFill(Color.BLACK);
