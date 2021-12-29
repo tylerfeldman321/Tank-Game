@@ -19,7 +19,7 @@ import javafx.scene.input.*;
 public class TankGameWorld extends GameWorld {
 
     private final double wallWidth = 5;
-    private final boolean mouseAim = true;
+    private final boolean mouseAim = false;
     private Player myPlayer;
 
     public TankGameWorld(int fps, String title) {
@@ -71,25 +71,31 @@ public class TankGameWorld extends GameWorld {
     }
 
     private void setupKeyInput(Stage primaryStage) {
-        EventHandler<KeyEvent> move = keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.W) {
-                // Move forward
-                myPlayer.move(3);
-            }
-            if (keyEvent.getCode() == KeyCode.S) {
-                // Move backward
-                myPlayer.move(-3);
-            }
+        EventHandler<KeyEvent> keyPressed = keyEvent -> {
             if (keyEvent.getCode() == KeyCode.A) {
-                // Rotate CCW
-                myPlayer.turn(-5);
-            }
-            if (keyEvent.getCode() == KeyCode.D) {
-                // Rotate CW
-                myPlayer.turn(5);
+                myPlayer.leftPressed.set(true);
+            } else if (keyEvent.getCode() == KeyCode.D) {
+                myPlayer.rightPressed.set(true);
+            } else if (keyEvent.getCode() == KeyCode.W) {
+                myPlayer.upPressed.set(true);
+            } else if (keyEvent.getCode() == KeyCode.S) {
+                myPlayer.downPressed.set(true);
             }
         };
-        primaryStage.getScene().setOnKeyPressed(move);
+        EventHandler<KeyEvent> keyReleased = keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.A) {
+                myPlayer.leftPressed.set(false);
+            } else if (keyEvent.getCode() == KeyCode.D) {
+                myPlayer.rightPressed.set(false);
+            } else if (keyEvent.getCode() == KeyCode.W) {
+                myPlayer.upPressed.set(false);
+            } else if (keyEvent.getCode() == KeyCode.S) {
+                myPlayer.downPressed.set(false);
+            }
+        };
+
+        primaryStage.getScene().setOnKeyPressed(keyPressed);
+        primaryStage.getScene().setOnKeyReleased(keyReleased);
     }
 
     @Override
