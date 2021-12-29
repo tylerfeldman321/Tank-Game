@@ -7,11 +7,20 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class Tank extends Sprite {
+
     double tankHealth = 10;
     double tankRadius = 10;
-    double frontAngleDegrees = 0; // Degrees
+    double frontAngleDegrees = 0;
+
+    // Bullet parameters
+    // This should be handled by the tank's equipped weapon in the future
     double bulletRadius = 5;
     double bulletVelocity = 5;
+
+    // Movement parameters
+    double tankForwardSpeed = 2;
+    double tankBackwardSpeed = 1.5;
+    double tankTurnSpeed = 3;
 
     public Tank(double centerX, double centerY) {
         Circle circle = new Circle();
@@ -50,7 +59,7 @@ public class Tank extends Sprite {
         return fire(frontAngleDegrees);
     }
 
-    public Bullet fire(double angleDegrees) {
+    private Bullet fire(double angleDegrees) {
         double angleRadians = Math.toRadians(angleDegrees);
 
         Bullet bullet;
@@ -70,14 +79,30 @@ public class Tank extends Sprite {
         return bullet;
     }
 
-    public void move(double distance) {
+    public void moveForward() {
+        move(tankForwardSpeed);
+    }
+
+    public void moveBackward() {
+        move(-tankBackwardSpeed);
+    }
+
+    private void move(double distance) {
         double angleRadians = Math.toRadians(frontAngleDegrees);
         double distanceX = distance * Math.cos(angleRadians);
         double distanceY = distance * Math.sin(angleRadians);
         updatePosition(distanceX, distanceY);
     }
 
-    public void turn(int degrees) {
+    public void turnCCW() {
+        turn(tankTurnSpeed);
+    }
+
+    public void turnCW() {
+        turn(-tankTurnSpeed);
+    }
+
+    private void turn(double degrees) {
         frontAngleDegrees += degrees;
     }
 

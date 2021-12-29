@@ -20,15 +20,15 @@ public class Player extends Tank {
     @Override
     public void update(GameWorld gameWorld) {
         if (leftPressed.get()) {
-            if (downPressed.get()) turn(2);
-            else turn(-2);
+            if (downPressed.get()) turnCCW();
+            else turnCW();
         }
         if (rightPressed.get()) {
-            if (downPressed.get()) turn(-2);
-            else turn(2);
+            if (downPressed.get()) turnCW();
+            else turnCCW();
         }
-        if (upPressed.get()) move(1);
-        if (downPressed.get()) move(-1);
+        if (upPressed.get()) moveForward();
+        if (downPressed.get()) moveBackward();
     }
 
     @Override
