@@ -9,11 +9,18 @@ import javafx.scene.Scene;
 import javafx.event.*;
 import javafx.scene.input.*;
 
+// TODO:
+//  - Add menu
+//  - Restructure game: make abstract weapon class, make tank abstract, make projectile abstract class, organize into packages
+//  - Change movement so that turning and moving forward can happen concurrently
+//  - Add tankVelocity and turnSpeed parameters for Tank class that control how the tank moves
+
+
 public class TankGameWorld extends GameWorld {
 
     private final double wallWidth = 5;
-    private final boolean mouseAim = false;
-    public Player myPlayer;
+    private final boolean mouseAim = true;
+    private Player myPlayer;
 
     public TankGameWorld(int fps, String title) {
         super(fps, title);
@@ -39,6 +46,11 @@ public class TankGameWorld extends GameWorld {
     }
 
     private void setupInput(Stage primaryStage) {
+        setupMouseInput(primaryStage);
+        setupKeyInput(primaryStage);
+    }
+
+    private void setupMouseInput(Stage primaryStage) {
         EventHandler<MouseEvent> fire = null;
         if (mouseAim) {
             fire = event -> {
@@ -56,7 +68,9 @@ public class TankGameWorld extends GameWorld {
             };
         }
         primaryStage.getScene().setOnMousePressed(fire);
+    }
 
+    private void setupKeyInput(Stage primaryStage) {
         EventHandler<KeyEvent> move = keyEvent -> {
             if (keyEvent.getCode() == KeyCode.W) {
                 // Move forward
