@@ -6,9 +6,11 @@ import engine.Sprite;
 import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.event.*;
-import javafx.scene.input.*;
-
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 
 public class TankGameWorld extends GameWorld {
 
