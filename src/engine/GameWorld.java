@@ -99,6 +99,9 @@ public abstract class GameWorld {
                         // removed dead things
                         cleanupSprites();
 
+                        // add sprites that are in queue to be added
+                        insertNewSprites();
+
                         secondsElapsed+=(1/(double)framesPerSecond);
                     }
                 }); // oneFrame
@@ -160,8 +163,8 @@ public abstract class GameWorld {
         // both lists here are the same since we called resetCollisionsToCheck
         Sprite spriteA;
         Sprite spriteB;
-        for (int i = 0; i < spriteManager.getCollisionsToCheck().size(); i++) {
-            spriteA = spriteManager.getCollisionsToCheck().get(i);
+        for (int i = 0; i < spriteManager.getAllSprites().size(); i++) {
+            spriteA = spriteManager.getAllSprites().get(i);
             for (int j = i + 1; j < spriteManager.getAllSprites().size(); j++) {
                 spriteB = spriteManager.getAllSprites().get(j);
                 if (handleCollision(spriteA, spriteB)) {
@@ -194,6 +197,13 @@ public abstract class GameWorld {
         }
         // Remove the sprite from the sprite manager, meaning it won't check collisions or update it
         spriteManager.cleanupSprites();
+    }
+
+    protected void insertNewSprites() {
+        for (Sprite sprite: spriteManager.getSpritesToBeAdded()) {
+            getSceneNodes().getChildren().add(sprite.node);
+        }
+        spriteManager.insertNewSprites();
     }
 
     /**
@@ -309,7 +319,7 @@ public abstract class GameWorld {
      *
      * @param sprites Variable number of sprites that will be added
      */
-    protected void addSprites(Sprite... sprites) {
+    public void addSprites(Sprite... sprites) {
         getSpriteManager().addSprites(sprites);
         for (Sprite sprite : Arrays.asList(sprites)) {
             getSceneNodes().getChildren().add(0, sprite.node);

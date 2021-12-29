@@ -11,7 +11,7 @@ public abstract class Projectile extends Sprite {
     /**
      * Whether this will bounce off of walls
      */
-    boolean bounce;
+    public boolean bounce;
 
     public Projectile(double radius, double centerX, double centerY, double vX, double vY, double damage, double health,
                       boolean isInvincible, double lifetime, boolean bounce, Color color) {

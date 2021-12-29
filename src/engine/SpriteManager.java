@@ -24,6 +24,10 @@ public class SpriteManager {
      */
     private final static Set<Sprite> CLEAN_UP_SPRITES = new HashSet<>();
 
+    /** A global single threaded set used to add sprite objects.
+     */
+    private final static Set<Sprite> SPRITES_TO_ADD = new HashSet<>();
+
     /** */
     public List<Sprite> getAllSprites() {
         return GAME_ACTORS;
@@ -65,6 +69,22 @@ public class SpriteManager {
     }
 
     /**
+     * Removes sprite objects and nodes from all
+     * temporary collections such as:
+     * CLEAN_UP_SPRITES.
+     * The sprite to be removed will also be removed from the
+     * list of all sprite objects called (GAME_ACTORS).
+     */
+    public void cleanupSprites() {
+
+        // remove from actors list
+        GAME_ACTORS.removeAll(CLEAN_UP_SPRITES);
+
+        // reset the clean up sprites
+        CLEAN_UP_SPRITES.clear();
+    }
+
+    /**
      * Returns a list of sprite objects to assist in collision checks.
      * This is a temporary and is a copy of all current sprite objects
      * (copy of GAME_ACTORS).
@@ -83,19 +103,21 @@ public class SpriteManager {
         CHECK_COLLISION_LIST.addAll(GAME_ACTORS);
     }
 
-    /**
-     * Removes sprite objects and nodes from all
-     * temporary collections such as:
-     * CLEAN_UP_SPRITES.
-     * The sprite to be removed will also be removed from the
-     * list of all sprite objects called (GAME_ACTORS).
-     */
-    public void cleanupSprites() {
+    public Set<Sprite> getSpritesToBeAdded() { return SPRITES_TO_ADD; }
 
+    public void addSpritesToBeAdded(Sprite... sprites) {
+        if (sprites.length > 1) {
+            SPRITES_TO_ADD.addAll(Arrays.asList((Sprite[]) sprites));
+        } else {
+            SPRITES_TO_ADD.add(sprites[0]);
+        }
+    }
+
+    public void insertNewSprites() {
         // remove from actors list
-        GAME_ACTORS.removeAll(CLEAN_UP_SPRITES);
+        GAME_ACTORS.addAll(SPRITES_TO_ADD);
 
         // reset the clean up sprites
-        CLEAN_UP_SPRITES.clear();
+        SPRITES_TO_ADD.clear();
     }
 }
