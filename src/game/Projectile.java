@@ -2,16 +2,19 @@ package game;
 
 import engine.GameWorld;
 import engine.Sprite;
-
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class Bullet extends Sprite {
+public abstract class Projectile extends Sprite {
 
-    boolean bounce = true;
+    /**
+     * Whether this will bounce off of walls
+     */
+    boolean bounce;
 
-    public Bullet(double radius, double centerX, double centerY, double vX, double vY) {
+    public Projectile(double radius, double centerX, double centerY, double vX, double vY, double damage, double health,
+                      boolean isInvincible, double lifetime, boolean bounce, Color color) {
         Rectangle rect = new Rectangle();
         rect.setTranslateX(centerX - radius);
         rect.setTranslateY(centerY - radius);
@@ -23,16 +26,17 @@ public class Bullet extends Sprite {
         circle.setRadius(radius);
         circle.setTranslateX(centerX);
         circle.setTranslateY(centerY);
-        circle.setFill(Color.BLACK);
-
+        circle.setFill(color);
         node = circle;
 
+        // Initialize values
         this.vX = vX;
         this.vY = vY;
-
-        initializeHealth(0);
-        damage = 10;
-        lifetime = 5;
+        initializeHealth(health);
+        this.damage = damage;
+        this.isInvincible = isInvincible;
+        this.lifetime = lifetime;
+        this.bounce = bounce;
     }
 
     @Override

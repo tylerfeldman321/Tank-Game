@@ -14,7 +14,6 @@ public class Tank extends Sprite {
 
     // Bullet parameters
     // This should be handled by the tank's equipped weapon in the future
-    double bulletRadius = 5;
     double bulletVelocity = 5;
 
     // Movement parameters
@@ -46,23 +45,23 @@ public class Tank extends Sprite {
 
     public void update(GameWorld gameWorld) { ; }
 
-    public Bullet fire(double x, double y) {
+    public Projectile fire(double x, double y) {
         double deltaX = node.getTranslateX() - x;
         double deltaY = node.getTranslateY() - y;
         double angleDegrees = Math.toDegrees(Math.atan2(deltaY, deltaX) + Math.PI);
         return fire(angleDegrees);
     }
 
-    public Bullet fire() {
+    public Projectile fire() {
         return fire(frontAngleDegrees);
     }
 
-    private Bullet fire(double angleDegrees) {
+    private Projectile fire(double angleDegrees) {
         double angleRadians = Math.toRadians(angleDegrees);
 
-        Bullet bullet;
+        Projectile bullet;
 
-        double radiusSum = tankRadius + bulletRadius;
+        double radiusSum = tankRadius + 5;
         double offsetX = radiusSum * Math.cos(angleRadians);
         double offsetY = radiusSum * Math.sin(angleRadians);
 
@@ -72,7 +71,7 @@ public class Tank extends Sprite {
         double bulletVX = bulletVelocity * Math.cos(angleRadians);
         double bulletVY = bulletVelocity * Math.sin(angleRadians);
 
-        bullet = new Bullet(bulletRadius, bulletX, bulletY, bulletVX, bulletVY);
+        bullet = new BasicBullet(bulletX, bulletY, bulletVX, bulletVY);
 
         return bullet;
     }
