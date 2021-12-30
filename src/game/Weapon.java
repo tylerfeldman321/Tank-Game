@@ -77,7 +77,7 @@ public class Weapon {
                   int numProjectilesPerShot, double velocity, double projectileSpreadDegrees, boolean rapidFire) {
         this.gameWorld = gameWorld;
         this.owner = owner;
-        this.projectileBuilder = new ProjectileBuilder(projectileType);
+        this.projectileBuilder = new ProjectileBuilder(projectileType, this);
         this.rateOfFire = rateOfFire;
         this.maxNumProjectiles = maxProjectiles;
         this.numProjectilesPerShot = numProjectilesPerShot;
@@ -103,6 +103,8 @@ public class Weapon {
 
     public void fire(double angleDegrees) {
         if (needToWaitToFireAgain()) return;
+        if (tooManyProjectiles()) return;
+        incrementNumProjectiles();
         for (int i = 0; i < numProjectilesPerShot; i++) {
             fireSingleProjectile(angleDegrees);
         }
@@ -149,6 +151,21 @@ public class Weapon {
 
     private double getProjectileRadius() {
         return projectileBuilder.build(0,0,0,0).radius;
+    }
+
+    private boolean tooManyProjectiles() {
+        if (currentNumProjectiles >= maxNumProjectiles) {
+            return true;
+        }
+        return false;
+    }
+
+    private void incrementNumProjectiles() {
+        currentNumProjectiles++;
+    }
+
+    public void decrementNumProjectiles() {
+        currentNumProjectiles--;
     }
 
 }

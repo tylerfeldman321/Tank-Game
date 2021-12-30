@@ -8,6 +8,8 @@ import javafx.scene.shape.Rectangle;
 
 public class Projectile extends Sprite {
 
+    public Weapon weapon;
+
     /**
      * Whether this will bounce off of walls
      */
@@ -15,7 +17,7 @@ public class Projectile extends Sprite {
     public double radius;
     public boolean collidesWithOtherProjectiles;
 
-    public Projectile(double radius, double centerX, double centerY, double vX, double vY, double damage, double health,
+    public Projectile(Weapon weapon, double radius, double centerX, double centerY, double vX, double vY, double damage, double health,
                       boolean isInvincible, double lifetime, boolean bounce, boolean collidesWithOtherProjectiles, Color color) {
         Rectangle rect = new Rectangle();
         rect.setTranslateX(centerX - radius);
@@ -41,12 +43,21 @@ public class Projectile extends Sprite {
         this.bounce = bounce;
         this.radius = radius;
         this.collidesWithOtherProjectiles = collidesWithOtherProjectiles;
+        this.weapon = weapon;
     }
 
     @Override
     public void update(GameWorld gameWorld) {
         updatePosition(vX, vY);
         checkDuration(gameWorld);
+    }
+
+    @Override
+    public void handleDeath(GameWorld gameWorld) {
+        super.handleDeath(gameWorld);
+        if (weapon != null) {
+            weapon.decrementNumProjectiles();
+        }
     }
 
     @Override
