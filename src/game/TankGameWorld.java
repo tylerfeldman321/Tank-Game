@@ -38,6 +38,7 @@ public class TankGameWorld extends GameWorld {
         setupInput(primaryStage);
 
         myPlayer = new Player(300, 300);
+        myPlayer.setWeapon();
         addSprites(myPlayer);
     }
 
@@ -51,15 +52,15 @@ public class TankGameWorld extends GameWorld {
         if (mouseAim) {
             fire = event -> {
                 if (event.getButton() == MouseButton.PRIMARY && myPlayer.isAlive()) {
-                    Projectile bullet = myPlayer.fire(event.getX(), event.getY());
-                    addSprites(bullet);
+                    Projectile projectile = myPlayer.fireWeapon(event.getX(), event.getY());
+                    addSprites(projectile);
                 }
             };
         } else {
             fire = event -> {
                 if (event.getButton() == MouseButton.PRIMARY && myPlayer.isAlive()) {
-                    Projectile bullet = myPlayer.fire();
-                    addSprites(bullet);
+                    Projectile projectile = myPlayer.fireWeapon();
+                    addSprites(projectile);
                 }
             };
         }

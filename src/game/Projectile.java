@@ -6,12 +6,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public abstract class Projectile extends Sprite {
+public class Projectile extends Sprite {
 
     /**
      * Whether this will bounce off of walls
      */
     public boolean bounce;
+    public double radius;
 
     public Projectile(double radius, double centerX, double centerY, double vX, double vY, double damage, double health,
                       boolean isInvincible, double lifetime, boolean bounce, Color color) {
@@ -37,6 +38,7 @@ public abstract class Projectile extends Sprite {
         this.isInvincible = isInvincible;
         this.lifetime = lifetime;
         this.bounce = bounce;
+        this.radius = radius;
     }
 
     @Override

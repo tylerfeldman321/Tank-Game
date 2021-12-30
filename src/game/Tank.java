@@ -12,14 +12,13 @@ public class Tank extends Sprite {
     double tankRadius = 10;
     double frontAngleDegrees = 0;
 
-    // Bullet parameters
-    // This should be handled by the tank's equipped weapon in the future
-    double bulletVelocity = 5;
-
     // Movement parameters
     double tankForwardSpeed = 2;
     double tankBackwardSpeed = 1.5;
     double tankTurnSpeed = 3;
+
+    // Weapon
+    public Weapon weapon;
 
     public Tank(double centerX, double centerY) {
         Circle circle = new Circle();
@@ -45,35 +44,17 @@ public class Tank extends Sprite {
 
     public void update(GameWorld gameWorld) { ; }
 
-    public Projectile fire(double x, double y) {
-        double deltaX = node.getTranslateX() - x;
-        double deltaY = node.getTranslateY() - y;
-        double angleDegrees = Math.toDegrees(Math.atan2(deltaY, deltaX) + Math.PI);
-        return fire(angleDegrees);
+    public void setWeapon() {
+        this.weapon = new Weapon(this, ProjectileBuilder.ProjectileType.EXPLODING_BULLET, 0,
+                0, 0, 1, true);
     }
 
-    public Projectile fire() {
-        return fire(frontAngleDegrees);
+    public Projectile fireWeapon(double x, double y) {
+        return weapon.fire(x, y);
     }
 
-    private Projectile fire(double angleDegrees) {
-        double angleRadians = Math.toRadians(angleDegrees);
-
-        Projectile bullet;
-
-        double radiusSum = tankRadius + 5;
-        double offsetX = radiusSum * Math.cos(angleRadians);
-        double offsetY = radiusSum * Math.sin(angleRadians);
-
-        double bulletX = node.getTranslateX() + offsetX;
-        double bulletY = node.getTranslateY() + offsetY;
-
-        double bulletVX = bulletVelocity * Math.cos(angleRadians);
-        double bulletVY = bulletVelocity * Math.sin(angleRadians);
-
-        bullet = new BasicBullet(bulletX, bulletY, bulletVX, bulletVY);
-
-        return bullet;
+    public Projectile fireWeapon() {
+        return weapon.fire(frontAngleDegrees);
     }
 
     public void moveForward() {
