@@ -48,16 +48,16 @@ public class Tank extends Sprite {
     public void update(GameWorld gameWorld) { ; }
 
     public void setWeapon() {
-        this.weapon = new Weapon(gameWorld, this, ProjectileBuilder.ProjectileType.EXPLODING_BULLET, 0,
-                0, 0, 3, 0, true);
+        this.weapon = new Weapon(gameWorld, this, ProjectileBuilder.ProjectileType.BASIC_BULLET, 10,
+                0, 1, 3, 0, true);
     }
 
-    public Projectile fireWeapon(double x, double y) {
-        return weapon.fire(x, y);
+    public void fireWeapon(double x, double y) {
+        weapon.fire(x, y);
     }
 
-    public Projectile fireWeapon() {
-        return weapon.fire(frontAngleDegrees);
+    public void fireWeapon() {
+        weapon.fire(frontAngleDegrees);
     }
 
     public void moveForward() {

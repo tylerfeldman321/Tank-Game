@@ -8,7 +8,8 @@ public class ExplodingBullet extends Projectile {
     private double childVelocity = 1;
 
     public ExplodingBullet(double centerX, double centerY, double vX, double vY) {
-        super(5, centerX, centerY, vX, vY, 10, 0, false, 2, true, Color.GREENYELLOW);
+        super(5, centerX, centerY, vX, vY, 10, 0, false, 2, true,
+                false, Color.GREENYELLOW);
     }
 
     @Override

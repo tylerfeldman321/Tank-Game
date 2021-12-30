@@ -13,9 +13,10 @@ public class Projectile extends Sprite {
      */
     public boolean bounce;
     public double radius;
+    public boolean collidesWithOtherProjectiles;
 
     public Projectile(double radius, double centerX, double centerY, double vX, double vY, double damage, double health,
-                      boolean isInvincible, double lifetime, boolean bounce, Color color) {
+                      boolean isInvincible, double lifetime, boolean bounce, boolean collidesWithOtherProjectiles, Color color) {
         Rectangle rect = new Rectangle();
         rect.setTranslateX(centerX - radius);
         rect.setTranslateY(centerY - radius);
@@ -39,6 +40,7 @@ public class Projectile extends Sprite {
         this.lifetime = lifetime;
         this.bounce = bounce;
         this.radius = radius;
+        this.collidesWithOtherProjectiles = collidesWithOtherProjectiles;
     }
 
     @Override
@@ -49,7 +51,10 @@ public class Projectile extends Sprite {
 
     @Override
     public void collision(Sprite other, GameWorld gameWorld) {
-        if (other instanceof Wall && bounce) {
+        if (other instanceof Projectile && (!collidesWithOtherProjectiles || !((Projectile) other).collidesWithOtherProjectiles)) {
+            return;
+        }
+        else if (other instanceof Wall && bounce) {
             bounceOffWall((Wall)other);
             return;
         }

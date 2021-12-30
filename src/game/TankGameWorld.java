@@ -52,15 +52,13 @@ public class TankGameWorld extends GameWorld {
         if (mouseAim) {
             fire = event -> {
                 if (event.getButton() == MouseButton.PRIMARY && myPlayer.isAlive()) {
-                    Projectile projectile = myPlayer.fireWeapon(event.getX(), event.getY());
-                    addSprites(projectile);
+                    myPlayer.fireWeapon(event.getX(), event.getY());
                 }
             };
         } else {
             fire = event -> {
                 if (event.getButton() == MouseButton.PRIMARY && myPlayer.isAlive()) {
-                    Projectile projectile = myPlayer.fireWeapon();
-                    addSprites(projectile);
+                    myPlayer.fireWeapon();
                 }
             };
         }
