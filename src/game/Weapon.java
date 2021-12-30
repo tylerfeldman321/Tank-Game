@@ -1,6 +1,7 @@
 package game;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class Weapon {
@@ -23,7 +24,12 @@ public class Weapon {
     /**
      * How many of these projectiles are allowed to exist at one time
      */
-    public int maxProjectiles;
+    public int maxNumProjectiles;
+
+    /**
+     * Current number of projectiles that this
+     */
+    public int currentNumProjectiles = 0;
 
     /**
      * How many projectiles are shot at once
@@ -36,8 +42,9 @@ public class Weapon {
     public double velocity;
 
     /**
-     * Distribution or range of angles that the weapon will fire in
+     * Range of angles that the weapon will fire in
      */
+    public double projectileSpreadDegrees;
 
     /**
      * Rapidfire? i.e. does this continuously shoot while holding the key down
@@ -45,17 +52,19 @@ public class Weapon {
     public boolean rapidFire;
 
     /**
-     *
+     * How much extra distance away to spawn the bullet so that it doesn't collide with the tank firing it
      */
-    public Set<Projectile> projectileList = new HashSet<>();
+    private double padding = 1;
 
-    public Weapon(Tank owner, ProjectileBuilder.ProjectileType projectileType, double rateOfFire, int maxProjectiles, int projectilesPerShot, double velocity, boolean rapidFire) {
+    public Weapon(Tank owner, ProjectileBuilder.ProjectileType projectileType, double rateOfFire, int maxProjectiles,
+                  int projectilesPerShot, double velocity, double projectileSpreadDegrees, boolean rapidFire) {
         this.owner = owner;
         this.projectileBuilder = new ProjectileBuilder(projectileType);
         this.rateOfFire = rateOfFire;
-        this.maxProjectiles = maxProjectiles;
+        this.maxNumProjectiles = maxProjectiles;
         this.projectilesPerShot = projectilesPerShot;
         this.velocity = velocity;
+        this.projectileSpreadDegrees = projectileSpreadDegrees;
         this.rapidFire = rapidFire;
     }
 
@@ -67,11 +76,18 @@ public class Weapon {
     }
 
     public Projectile fire(double angleDegrees) {
+
+        Random random = new Random();
+
+        // Will be uniformly distributed between -projectileSpreadDegrees/2 and projectileSpreadDegrees/2
+        double angleDeviation = (random.nextDouble() - 0.5) * projectileSpreadDegrees;
+        angleDegrees += angleDeviation;
+
         double angleRadians = Math.toRadians(angleDegrees);
 
         Projectile projectile;
 
-        double radiusSum = owner.tankRadius + getProjectileRadius();
+        double radiusSum = owner.tankRadius + getProjectileRadius() + padding;
         double offsetX = radiusSum * Math.cos(angleRadians);
         double offsetY = radiusSum * Math.sin(angleRadians);
 
