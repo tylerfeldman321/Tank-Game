@@ -73,17 +73,23 @@ public class Weapon {
      */
     private double padding = 1;
 
-    public Weapon(GameWorld gameWorld, Tank owner, ProjectileBuilder.ProjectileType projectileType, double rateOfFire, int maxProjectiles,
+    /**
+     * Radius of projectile
+     */
+    private double radius;
+
+    public Weapon(GameWorld gameWorld, Tank owner, Projectile projectile, double rateOfFire, int maxProjectiles,
                   int numProjectilesPerShot, double velocity, double projectileSpreadDegrees, boolean rapidFire) {
         this.gameWorld = gameWorld;
         this.owner = owner;
-        this.projectileBuilder = new ProjectileBuilder(projectileType, this);
+        this.projectileBuilder = new ProjectileBuilder(projectile, this);
         this.rateOfFire = rateOfFire;
         this.maxNumProjectiles = maxProjectiles;
         this.numProjectilesPerShot = numProjectilesPerShot;
         this.velocity = velocity;
         this.projectileSpreadDegrees = projectileSpreadDegrees;
         this.rapidFire = rapidFire;
+        this.radius = projectile.radius;
 
         if (rateOfFire < 0) {
             // Throw error
@@ -120,7 +126,7 @@ public class Weapon {
 
         Projectile projectile;
 
-        double radiusSum = owner.tankRadius + getProjectileRadius() + padding;
+        double radiusSum = owner.tankRadius + radius + padding;
         double offsetX = radiusSum * Math.cos(angleRadians);
         double offsetY = radiusSum * Math.sin(angleRadians);
 
@@ -147,10 +153,6 @@ public class Weapon {
 
     private Projectile createProjectile(double x, double y, double vX, double vY) {
         return projectileBuilder.build(x, y, vX, vY);
-    }
-
-    private double getProjectileRadius() {
-        return projectileBuilder.build(0,0,0,0).radius;
     }
 
     private boolean tooManyProjectiles() {

@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class Projectile extends Sprite {
+public abstract class Projectile extends Sprite {
 
     public Weapon weapon;
 
@@ -59,6 +59,8 @@ public class Projectile extends Sprite {
             weapon.decrementNumProjectiles();
         }
     }
+
+    public abstract Projectile copy(Weapon weapon, double centerX, double centerY, double vX, double vY);
 
     @Override
     public void collision(Sprite other, GameWorld gameWorld) {

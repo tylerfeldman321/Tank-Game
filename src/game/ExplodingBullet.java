@@ -8,7 +8,7 @@ public class ExplodingBullet extends Projectile {
     private double childVelocity = 1;
 
     public ExplodingBullet(Weapon weapon, double centerX, double centerY, double vX, double vY) {
-        super(weapon,5, centerX, centerY, vX, vY, 10, 0, false, 2, true,
+        super(weapon,10, centerX, centerY, vX, vY, 10, 0, false, 2, true,
                 true, Color.GREENYELLOW);
     }
 
@@ -23,5 +23,10 @@ public class ExplodingBullet extends Projectile {
         Projectile downBullet = new BasicBullet(null,
                 this.node.getTranslateX(), this.node.getTranslateY()+10, this.vX, childVelocity+this.vY);
         gameWorld.getSpriteManager().addSpritesToBeAdded(leftBullet, rightBullet, upBullet, downBullet);
+    }
+
+    @Override
+    public Projectile copy(Weapon weapon, double centerX, double centerY, double vX, double vY) {
+        return new ExplodingBullet(weapon, centerX, centerY, vX, vY);
     }
 }
