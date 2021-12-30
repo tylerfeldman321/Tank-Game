@@ -8,6 +8,8 @@ import javafx.scene.shape.Rectangle;
 
 public class Tank extends Sprite {
 
+    GameWorld gameWorld;
+
     double tankHealth = 10;
     double tankRadius = 10;
     double frontAngleDegrees = 0;
@@ -20,7 +22,7 @@ public class Tank extends Sprite {
     // Weapon
     public Weapon weapon;
 
-    public Tank(double centerX, double centerY) {
+    public Tank(GameWorld gameWorld, double centerX, double centerY) {
         Circle circle = new Circle();
         circle.setRadius(tankRadius);
         circle.setTranslateX(centerX);
@@ -40,12 +42,13 @@ public class Tank extends Sprite {
 
         initializeHealth(tankHealth);
         damage = 0;
+        this.gameWorld = gameWorld;
     }
 
     public void update(GameWorld gameWorld) { ; }
 
     public void setWeapon() {
-        this.weapon = new Weapon(this, ProjectileBuilder.ProjectileType.EXPLODING_BULLET, 0,
+        this.weapon = new Weapon(gameWorld, this, ProjectileBuilder.ProjectileType.EXPLODING_BULLET, 0,
                 0, 0, 3, 0, true);
     }
 

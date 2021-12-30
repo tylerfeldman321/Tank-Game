@@ -1,10 +1,17 @@
 package game;
 
+import engine.GameWorld;
+
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 public class Weapon {
+
+    /**
+     * The GameWorld. Need this to keep track of seconds between shots
+     */
+    public GameWorld gameWorld;
 
     /**
      * Tank that owns this weapon
@@ -56,8 +63,9 @@ public class Weapon {
      */
     private double padding = 1;
 
-    public Weapon(Tank owner, ProjectileBuilder.ProjectileType projectileType, double rateOfFire, int maxProjectiles,
+    public Weapon(GameWorld gameWorld, Tank owner, ProjectileBuilder.ProjectileType projectileType, double rateOfFire, int maxProjectiles,
                   int projectilesPerShot, double velocity, double projectileSpreadDegrees, boolean rapidFire) {
+        this.gameWorld = gameWorld;
         this.owner = owner;
         this.projectileBuilder = new ProjectileBuilder(projectileType);
         this.rateOfFire = rateOfFire;
@@ -79,7 +87,6 @@ public class Weapon {
 
         Random random = new Random();
 
-        // Will be uniformly distributed between -projectileSpreadDegrees/2 and projectileSpreadDegrees/2
         double angleDeviation = (random.nextDouble() - 0.5) * projectileSpreadDegrees;
         angleDegrees += angleDeviation;
 

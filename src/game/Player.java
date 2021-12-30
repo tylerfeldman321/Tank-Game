@@ -12,8 +12,8 @@ public class Player extends Tank {
     final BooleanProperty upPressed = new SimpleBooleanProperty(false);
     final BooleanProperty downPressed = new SimpleBooleanProperty(false);
 
-    public Player(double centerX, double centerY) {
-        super(centerX, centerY);
+    public Player(GameWorld gameWorld, double centerX, double centerY) {
+        super(gameWorld, centerX, centerY);
         initializeHealth(playerHealth);
     }
 
