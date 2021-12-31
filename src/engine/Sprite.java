@@ -114,6 +114,16 @@ public abstract class Sprite {
         collisionBounds.setTranslateY(collisionBounds.getTranslateY() + distanceY);
     }
 
+    public void setXPosition(double x) {
+        node.setTranslateX(x);
+        collisionBounds.setTranslateX(x);
+    }
+
+    public void setYPosition(double y) {
+        node.setTranslateY(y);
+        collisionBounds.setTranslateY(y);
+    }
+
     public void initializeHealth(double health) {
         maxHP = health;
         currentHP = health;

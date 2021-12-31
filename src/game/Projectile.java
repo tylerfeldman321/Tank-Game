@@ -116,8 +116,12 @@ public class Projectile extends Sprite {
         double intersectionWidth = intersectionRight - intersectionLeft;
 
         if (intersectionHeight > intersectionWidth) {
+            if (vX >= 0) setXPosition(wallBounds.getTranslateX() - 2*radius);
+            else setXPosition(wallBounds.getTranslateX() + wallBounds.getWidth() + 2*radius);
             vX = -vX;
         } else {
+            if (vY >= 0) setYPosition(wallBounds.getTranslateY() - 2*radius);
+            else setYPosition(wallBounds.getTranslateY() + wallBounds.getHeight() + 2*radius);
             vY = -vY;
         }
     }
