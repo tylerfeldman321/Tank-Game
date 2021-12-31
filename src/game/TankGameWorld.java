@@ -18,8 +18,10 @@ import java.util.List;
 public class TankGameWorld extends GameWorld {
 
     private final double wallWidth = 5;
-    private final boolean mouseAim = false;
+    public final boolean mouseAim = true;
     private Player myPlayer;
+    public double currentMouseX = 0;
+    public double currentMouseY = 0;
 
     public TankGameWorld(int fps, String title) {
         super(fps, title);
@@ -41,7 +43,7 @@ public class TankGameWorld extends GameWorld {
         setupInput(primaryStage);
 
         myPlayer = new Player(this,300, 300);
-        myPlayer.setWeaponRack(WeaponType.BASIC, WeaponType.SHOTGUN, WeaponType.EXPLOSIVE_LAUNCHER);
+        myPlayer.setWeaponRack(WeaponType.BASIC, WeaponType.SHOTGUN, WeaponType.EXPLOSIVE_LAUNCHER, WeaponType.MACHINE_GUN);
         addSprites(myPlayer);
     }
 
@@ -51,21 +53,30 @@ public class TankGameWorld extends GameWorld {
     }
 
     private void setupMouseInput(Stage primaryStage) {
-        EventHandler<MouseEvent> fire = null;
         if (mouseAim) {
-            fire = event -> {
+            EventHandler<MouseEvent> fire = event -> {
                 if (event.getButton() == MouseButton.PRIMARY && myPlayer.isAlive()) {
                     myPlayer.fireWeapon(event.getX(), event.getY());
                 }
+                myPlayer.firePressed.set(true);
+                currentMouseX = event.getX();
+                currentMouseY = event.getY();
             };
-        } else {
-            fire = event -> {
-                if (event.getButton() == MouseButton.PRIMARY && myPlayer.isAlive()) {
-                    myPlayer.fireWeapon();
-                }
+
+            EventHandler<MouseEvent> releaseMouse = event -> {
+                myPlayer.firePressed.set(false);
             };
+
+            EventHandler<MouseEvent> dragMouse = event -> {
+                currentMouseX = event.getX();
+                currentMouseY = event.getY();
+            };
+
+            primaryStage.getScene().setOnMousePressed(fire);
+            primaryStage.getScene().setOnMouseReleased(releaseMouse);
+            primaryStage.getScene().setOnMouseDragged(dragMouse);
         }
-        primaryStage.getScene().setOnMousePressed(fire);
+
     }
 
     private void setupKeyInput(Stage primaryStage) {
@@ -90,6 +101,7 @@ public class TankGameWorld extends GameWorld {
                 myPlayer.swapWeapon(4);
             }
         };
+
         EventHandler<KeyEvent> keyReleased = keyEvent -> {
             if (keyEvent.getCode() == KeyCode.A) {
                 myPlayer.leftPressed.set(false);

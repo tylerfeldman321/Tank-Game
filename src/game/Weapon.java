@@ -93,9 +93,11 @@ public class Weapon {
      */
     private double radiusFromFiringLocation;
 
+    private boolean rapidFire;
+
     public Weapon(GameWorld gameWorld, double radiusFromFiringLocation,
                   Projectile projectile, double rateOfFire, int maxProjectiles, int maxAmmo,
-                  int numProjectilesPerShot, double velocity, double projectileSpreadDegrees) {
+                  int numProjectilesPerShot, double velocity, double projectileSpreadDegrees, boolean rapidFire) {
         this.gameWorld = gameWorld;
         this.projectileBuilder = new ProjectileBuilder(projectile, this);
         this.rateOfFire = rateOfFire;
@@ -108,6 +110,7 @@ public class Weapon {
         this.maxAmmo = maxAmmo;
         this.currentAmmo = maxAmmo;
         this.radiusFromFiringLocation = radiusFromFiringLocation;
+        this.rapidFire = rapidFire;
 
         if (rateOfFire < 0) {
             // Throw error
@@ -210,4 +213,7 @@ public class Weapon {
         currentNumProjectiles--;
     }
 
+    public boolean isRapidFire() {
+        return rapidFire;
+    }
 }

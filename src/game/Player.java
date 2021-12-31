@@ -11,6 +11,7 @@ public class Player extends Tank {
     final BooleanProperty rightPressed = new SimpleBooleanProperty(false);
     final BooleanProperty upPressed = new SimpleBooleanProperty(false);
     final BooleanProperty downPressed = new SimpleBooleanProperty(false);
+    final BooleanProperty firePressed = new SimpleBooleanProperty(false);
 
     public Player(GameWorld gameWorld, double centerX, double centerY) {
         super(gameWorld, centerX, centerY);
@@ -29,6 +30,12 @@ public class Player extends Tank {
         }
         if (upPressed.get()) moveForward();
         if (downPressed.get()) moveBackward();
+        if (weaponRackIsSet) {
+            if (weaponRack.currentWeaponIsRapidFire() && firePressed.get()) {
+                fireWeapon(((TankGameWorld) gameWorld).currentMouseX, ((TankGameWorld) gameWorld).currentMouseY);
+            }
+        }
+
     }
 
     @Override

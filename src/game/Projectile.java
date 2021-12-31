@@ -74,7 +74,7 @@ public class Projectile extends Sprite {
         if (numChildren <= 0 || childProjectile == null) return;
         double angleBetweenChildren = 360 / (double)numChildren;
         Weapon childWeapon = new Weapon(weapon.gameWorld, 0, childProjectile, Double.MAX_VALUE,
-                Integer.MAX_VALUE, Integer.MAX_VALUE, 1, childVelocity, 0);
+                Integer.MAX_VALUE, Integer.MAX_VALUE, 1, childVelocity, 0, false);
         double childAngle;
         for (int i = 0; i < numChildren; i++) {
             childAngle = angleBetweenChildren * i;

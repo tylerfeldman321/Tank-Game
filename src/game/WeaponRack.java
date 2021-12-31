@@ -74,4 +74,12 @@ public class WeaponRack {
             currentWeapon.fire(x, y, owner.node.getTranslateX(), owner.node.getTranslateY());
         }
     }
+
+    public boolean currentWeaponIsRapidFire() {
+        Weapon currentWeapon = getCurrentWeapon();
+        if (currentWeapon != null) {
+            return getCurrentWeapon().isRapidFire();
+        }
+        return false;
+    }
 }

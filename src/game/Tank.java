@@ -23,6 +23,7 @@ public class Tank extends Sprite {
 
     // Weapon
     public WeaponRack weaponRack = null;
+    public boolean weaponRackIsSet = false;
 
     public Tank(GameWorld gameWorld, double centerX, double centerY) {
         Circle circle = new Circle();
@@ -51,6 +52,7 @@ public class Tank extends Sprite {
 
     public void setWeaponRack(Weapon... weapons) {
         this.weaponRack = new WeaponRack(gameWorld, this, weapons);
+        weaponRackIsSet = true;
     }
 
     public void setWeaponRack(List<Weapon> weaponList) {
@@ -58,18 +60,15 @@ public class Tank extends Sprite {
     }
 
     public void swapWeapon(int index) {
-        if (weaponRack == null) return;
-        weaponRack.swapWeapon(index);
+        if (weaponRackIsSet) weaponRack.swapWeapon(index);
     }
 
     public void fireWeapon(double x, double y) {
-        if (weaponRack == null) return;
-        weaponRack.fire(x, y);
+        if (weaponRackIsSet) weaponRack.fire(x, y);
     }
 
     public void fireWeapon() {
-        if (weaponRack == null) return;
-        weaponRack.fire(frontAngleDegrees);
+        if (weaponRackIsSet) weaponRack.fire(frontAngleDegrees);
     }
 
     public void moveForward() {
@@ -98,6 +97,5 @@ public class Tank extends Sprite {
     private void turn(double degrees) {
         frontAngleDegrees += degrees;
     }
-
 
 }
