@@ -49,6 +49,16 @@ public class Weapon {
     public int currentNumProjectiles = 0;
 
     /**
+     * Max number of shots able to be fired
+     */
+    public int maxAmmo;
+
+    /**
+     * Current number of shots fired so far
+     */
+    public int currentAmmo;
+
+    /**
      * How many projectiles are shot at once
      */
     public int numProjectilesPerShot;
@@ -78,7 +88,7 @@ public class Weapon {
      */
     private double radius;
 
-    public Weapon(GameWorld gameWorld, Tank owner, Projectile projectile, double rateOfFire, int maxProjectiles,
+    public Weapon(GameWorld gameWorld, Tank owner, Projectile projectile, double rateOfFire, int maxProjectiles, int maxAmmo,
                   int numProjectilesPerShot, double velocity, double projectileSpreadDegrees, boolean rapidFire) {
         this.gameWorld = gameWorld;
         this.owner = owner;
@@ -90,6 +100,8 @@ public class Weapon {
         this.projectileSpreadDegrees = projectileSpreadDegrees;
         this.rapidFire = rapidFire;
         this.radius = projectile.radius;
+        this.maxAmmo = maxAmmo;
+        this.currentAmmo = maxAmmo;
 
         if (rateOfFire < 0) {
             // Throw error
@@ -110,6 +122,7 @@ public class Weapon {
     public void fire(double angleDegrees) {
         if (needToWaitToFireAgain()) return;
         if (tooManyProjectiles()) return;
+        if (outOfAmmo()) return;
         incrementNumProjectiles();
         for (int i = 0; i < numProjectilesPerShot; i++) {
             fireSingleProjectile(angleDegrees);
@@ -162,8 +175,16 @@ public class Weapon {
         return false;
     }
 
+    private boolean outOfAmmo() {
+        if (currentAmmo <= 0) {
+            return true;
+        }
+        return false;
+    }
+
     private void incrementNumProjectiles() {
         currentNumProjectiles++;
+        currentAmmo--;
     }
 
     public void decrementNumProjectiles() {

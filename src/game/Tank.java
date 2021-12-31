@@ -49,7 +49,7 @@ public class Tank extends Sprite {
 
     public void setWeapon() {
         this.weapon = new Weapon(gameWorld, this, ProjectileType.BASIC_BULLET, 10,
-                3, 1, 3, 0, true);
+                3, 10, 1, 3, 0, true);
     }
 
     public void fireWeapon(double x, double y) {
