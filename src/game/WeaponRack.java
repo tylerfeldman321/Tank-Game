@@ -25,13 +25,7 @@ public class WeaponRack {
     }
 
     public WeaponRack(GameWorld gameWorld, Tank owner, Weapon... weapons) {
-        this.gameWorld = gameWorld;
-        this.owner = owner;
-        List<Weapon> weaponList = Arrays.asList(weapons);
-        for (int i = 0; i < weaponList.size(); i++) {
-            Weapon weapon = weaponList.get(i);
-            addWeapon(i + startingIndex, weapon);
-        }
+        this(gameWorld, owner, Arrays.asList(weapons));
     }
 
     public int addWeapon(Weapon weapon) {

@@ -14,14 +14,14 @@ public class Weapon {
     public GameWorld gameWorld;
 
     /**
-     * Tank that owns this weapon
-     */
-    public Tank owner;
-
-    /**
      * Shots allowed per second
      */
     public double rateOfFire;
+
+    /**
+     * Whether the weapon has a rate of fire restriction. If false, then rate of fire is not accounted for
+     */
+    private boolean rateOfFireRestriction = true;
 
     /**
      * Time between shots
@@ -74,9 +74,14 @@ public class Weapon {
     public double projectileSpreadDegrees;
 
     /**
-     * How much extra distance away to spawn the bullet so that it doesn't collide with the tank firing it
+     * Padding is how much extra distance away to spawn the bullet so that it doesn't collide with the tank firing it
+     * Padding is increased by how slow and large the projectiles are. The larger and slower, the more padding required.
+     * paddingInverseVelocityFactor controls the factor for how much slowness contributes to the final padding.
+     * paddingRadiusFactor controls the factor for how much the projectile's radius contributes to the final padding.
      */
-    private double padding = 2;
+    private double padding = 1;
+    private double paddingInverseVelocityFactor = 5;
+    private double paddingRadiusFactor = 0.5;
 
     /**
      * Radius of projectile
@@ -99,12 +104,15 @@ public class Weapon {
         this.velocity = velocity;
         this.projectileSpreadDegrees = projectileSpreadDegrees;
         this.radius = projectile.radius;
+        this.padding += projectile.radius * paddingRadiusFactor + (1 / (velocity+1))*paddingInverseVelocityFactor;
         this.maxAmmo = maxAmmo;
         this.currentAmmo = maxAmmo;
         this.radiusFromFiringLocation = radiusFromFiringLocation;
 
         if (rateOfFire < 0) {
             // Throw error
+        } else if (rateOfFire == Double.MAX_VALUE) {
+            rateOfFireRestriction = false;
         } else if (rateOfFire == 0) {
             timeAllowedBetweenShots = Double.MAX_VALUE;
         } else {
@@ -149,7 +157,8 @@ public class Weapon {
 
         projectile = createProjectile(projectileX, projectileY, projectileVX, projectileVY);
 
-        gameWorld.addSprites(projectile);
+        // gameWorld.addSprites(projectile);
+        gameWorld.getSpriteManager().addSpritesToBeAdded(projectile);
     }
 
     public void setGameWorldAndOwnerRadius(GameWorld gameWorld, double radiusFromFiringLocation) {
@@ -167,7 +176,7 @@ public class Weapon {
     private boolean needToWaitToFireAgain() {
         double currentTime = gameWorld.getSecondsElapsed();
         double timeFromPreviousShot = currentTime - timeOfPreviousShot;
-        if (timeFromPreviousShot < timeAllowedBetweenShots) {
+        if (timeFromPreviousShot < timeAllowedBetweenShots && rateOfFireRestriction) {
             return true;
         }
         timeOfPreviousShot = currentTime;
