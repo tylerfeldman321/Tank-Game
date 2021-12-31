@@ -120,9 +120,7 @@ public class Weapon {
     }
 
     public void fire(double angleDegrees) {
-        if (needToWaitToFireAgain()) return;
-        if (tooManyProjectiles()) return;
-        if (outOfAmmo()) return;
+        if (cantFire()) return;
         incrementNumProjectiles();
         for (int i = 0; i < numProjectilesPerShot; i++) {
             fireSingleProjectile(angleDegrees);
@@ -154,6 +152,13 @@ public class Weapon {
         gameWorld.addSprites(projectile);
     }
 
+    private boolean cantFire() {
+        if (needToWaitToFireAgain()) return true;
+        if (tooManyProjectiles()) return true;
+        if (outOfAmmo()) return true;
+        return false;
+    }
+
     private boolean needToWaitToFireAgain() {
         double currentTime = gameWorld.getSecondsElapsed();
         double timeFromPreviousShot = currentTime - timeOfPreviousShot;
@@ -162,10 +167,6 @@ public class Weapon {
         }
         timeOfPreviousShot = currentTime;
         return false;
-    }
-
-    private Projectile createProjectile(double x, double y, double vX, double vY) {
-        return projectileBuilder.build(x, y, vX, vY);
     }
 
     private boolean tooManyProjectiles() {
@@ -180,6 +181,10 @@ public class Weapon {
             return true;
         }
         return false;
+    }
+
+    private Projectile createProjectile(double x, double y, double vX, double vY) {
+        return projectileBuilder.build(x, y, vX, vY);
     }
 
     private void incrementNumProjectiles() {
