@@ -20,7 +20,7 @@ public class Tank extends Sprite {
     double tankTurnSpeed = 3;
 
     // Weapon
-    public WeaponRack weaponRack;
+    public WeaponRack weaponRack = null;
 
     public Tank(GameWorld gameWorld, double centerX, double centerY) {
         Circle circle = new Circle();
@@ -47,19 +47,22 @@ public class Tank extends Sprite {
 
     public void update(GameWorld gameWorld) { ; }
 
-    public void setWeapon() {
-        this.weaponRack = new WeaponRack(gameWorld, this, WeaponType.BASIC, WeaponType.SHOTGUN, WeaponType.EXPLOSIVE_LAUNCHER);
+    public void setWeaponRack(Weapon... weapons) {
+        this.weaponRack = new WeaponRack(gameWorld, this, weapons);
     }
 
     public void swapWeapon(int index) {
+        if (weaponRack == null) return;
         weaponRack.swapWeapon(index);
     }
 
     public void fireWeapon(double x, double y) {
+        if (weaponRack == null) return;
         weaponRack.fire(x, y);
     }
 
     public void fireWeapon() {
+        if (weaponRack == null) return;
         weaponRack.fire(frontAngleDegrees);
     }
 
