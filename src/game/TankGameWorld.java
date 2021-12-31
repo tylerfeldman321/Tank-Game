@@ -76,6 +76,16 @@ public class TankGameWorld extends GameWorld {
             } else if (keyEvent.getCode() == KeyCode.S) {
                 myPlayer.downPressed.set(true);
             }
+
+            if (keyEvent.getCode() == KeyCode.DIGIT1) {
+                myPlayer.swapWeapon(1);
+            } else if (keyEvent.getCode() == KeyCode.DIGIT2) {
+                myPlayer.swapWeapon(2);
+            } else if (keyEvent.getCode() == KeyCode.DIGIT3) {
+                myPlayer.swapWeapon(3);
+            } else if (keyEvent.getCode() == KeyCode.DIGIT4) {
+                myPlayer.swapWeapon(4);
+            }
         };
         EventHandler<KeyEvent> keyReleased = keyEvent -> {
             if (keyEvent.getCode() == KeyCode.A) {

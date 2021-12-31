@@ -74,34 +74,34 @@ public class Weapon {
     public double projectileSpreadDegrees;
 
     /**
-     * Rapidfire? i.e. does this continuously shoot while holding the key down
-     */
-    public boolean rapidFire;
-
-    /**
      * How much extra distance away to spawn the bullet so that it doesn't collide with the tank firing it
      */
-    private double padding = 1;
+    private double padding = 2;
 
     /**
      * Radius of projectile
      */
     private double radius;
 
-    public Weapon(GameWorld gameWorld, Tank owner, Projectile projectile, double rateOfFire, int maxProjectiles, int maxAmmo,
-                  int numProjectilesPerShot, double velocity, double projectileSpreadDegrees, boolean rapidFire) {
+    /**
+     * Radius to shoot bullets from firing location to prevent collisions with firer
+     */
+    private double radiusFromFiringLocation;
+
+    public Weapon(GameWorld gameWorld, double radiusFromFiringLocation,
+                  Projectile projectile, double rateOfFire, int maxProjectiles, int maxAmmo,
+                  int numProjectilesPerShot, double velocity, double projectileSpreadDegrees) {
         this.gameWorld = gameWorld;
-        this.owner = owner;
         this.projectileBuilder = new ProjectileBuilder(projectile, this);
         this.rateOfFire = rateOfFire;
         this.maxNumProjectiles = maxProjectiles;
         this.numProjectilesPerShot = numProjectilesPerShot;
         this.velocity = velocity;
         this.projectileSpreadDegrees = projectileSpreadDegrees;
-        this.rapidFire = rapidFire;
         this.radius = projectile.radius;
         this.maxAmmo = maxAmmo;
         this.currentAmmo = maxAmmo;
+        this.radiusFromFiringLocation = radiusFromFiringLocation;
 
         if (rateOfFire < 0) {
             // Throw error
@@ -112,22 +112,22 @@ public class Weapon {
         }
     }
 
-    public void fire(double x, double y) {
-        double deltaX = owner.node.getTranslateX() - x;
-        double deltaY = owner.node.getTranslateY() - y;
+    public void fire(double x, double y, double firingLocationX, double firingLocationY) {
+        double deltaX = firingLocationX - x;
+        double deltaY = firingLocationY - y;
         double angleDegrees = Math.toDegrees(Math.atan2(deltaY, deltaX) + Math.PI);
-        fire(angleDegrees);
+        fire(angleDegrees, firingLocationX, firingLocationY);
     }
 
-    public void fire(double angleDegrees) {
+    public void fire(double angleDegrees, double firingLocationX, double firingLocationY) {
         if (cantFire()) return;
         incrementNumProjectiles();
         for (int i = 0; i < numProjectilesPerShot; i++) {
-            fireSingleProjectile(angleDegrees);
+            fireSingleProjectile(angleDegrees, firingLocationX, firingLocationY);
         }
     }
 
-    private void fireSingleProjectile(double angleDegrees) {
+    private void fireSingleProjectile(double angleDegrees, double firingLocationX, double firingLocationY) {
         Random random = new Random();
 
         double angleDeviation = (random.nextDouble() - 0.5) * projectileSpreadDegrees;
@@ -137,12 +137,12 @@ public class Weapon {
 
         Projectile projectile;
 
-        double radiusSum = owner.tankRadius + radius + padding;
+        double radiusSum = radiusFromFiringLocation + radius + padding;
         double offsetX = radiusSum * Math.cos(angleRadians);
         double offsetY = radiusSum * Math.sin(angleRadians);
 
-        double projectileX = owner.node.getTranslateX() + offsetX;
-        double projectileY = owner.node.getTranslateY() + offsetY;
+        double projectileX = firingLocationX + offsetX;
+        double projectileY = firingLocationY + offsetY;
 
         double projectileVX = velocity * Math.cos(angleRadians);
         double projectileVY = velocity * Math.sin(angleRadians);
@@ -150,6 +150,11 @@ public class Weapon {
         projectile = createProjectile(projectileX, projectileY, projectileVX, projectileVY);
 
         gameWorld.addSprites(projectile);
+    }
+
+    public void setGameWorldAndOwnerRadius(GameWorld gameWorld, double radiusFromFiringLocation) {
+        this.gameWorld = gameWorld;
+        this.radiusFromFiringLocation = radiusFromFiringLocation;
     }
 
     private boolean cantFire() {
