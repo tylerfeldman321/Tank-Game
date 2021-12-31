@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+import java.util.List;
+
 public class Tank extends Sprite {
 
     GameWorld gameWorld;
@@ -49,6 +51,10 @@ public class Tank extends Sprite {
 
     public void setWeaponRack(Weapon... weapons) {
         this.weaponRack = new WeaponRack(gameWorld, this, weapons);
+    }
+
+    public void setWeaponRack(List<Weapon> weaponList) {
+        this.weaponRack = new WeaponRack(gameWorld, this, weaponList);
     }
 
     public void swapWeapon(int index) {
