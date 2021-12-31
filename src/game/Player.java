@@ -30,17 +30,17 @@ public class Player extends Tank {
         }
         if (upPressed.get()) moveForward();
         if (downPressed.get()) moveBackward();
-        if (weaponRackIsSet) {
-            if (weaponRack.currentWeaponIsRapidFire() && firePressed.get()) {
-                fireWeapon(((TankGameWorld) gameWorld).currentMouseX, ((TankGameWorld) gameWorld).currentMouseY);
-            }
-        }
 
+        // Fire weapon every frame if the current weapon is rapid fire and the user is pressing down on the fire button
+        if (firePressed.get() && weaponRackIsSet && weaponRack.currentWeaponIsRapidFire()) {
+            TankGameWorld tankGameWorld = (TankGameWorld) gameWorld;
+            if (tankGameWorld.isMouseAim()) fireWeapon(tankGameWorld.getCurrentMouseX(), tankGameWorld.getCurrentMouseY());
+            else fireWeapon();
+        }
     }
 
     @Override
     public void handleDeath(GameWorld gameWorld) {
         gameWorld.getSpriteManager().addSpritesToBeRemoved(this);
-        // On death, signal game end
     }
 }
