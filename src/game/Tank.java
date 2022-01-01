@@ -31,7 +31,7 @@ public class Tank extends Sprite {
         circle.setRadius(tankRadius);
         circle.setTranslateX(centerX);
         circle.setTranslateY(centerY);
-        circle.setFill(Color.BLACK);
+        circle.setFill(Color.FORESTGREEN);
         this.node = circle;
 
         // Set the collision bounds to the square circumscribed in the circle.
