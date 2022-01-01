@@ -1,10 +1,10 @@
-package game;
+package game.weapons;
 
 import engine.GameWorld;
+import game.projectiles.Projectile;
+import game.projectiles.ProjectileBuilder;
 
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 public class Weapon {
 

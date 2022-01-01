@@ -1,4 +1,4 @@
-package game;
+package game.walls;
 
 import engine.GameWorld;
 import engine.Sprite;

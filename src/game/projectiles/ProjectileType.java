@@ -1,4 +1,4 @@
-package game;
+package game.projectiles;
 
 public class ProjectileType {
     public static final Projectile BASIC_BULLET = new BasicBullet();

@@ -3,6 +3,9 @@ package game;
 import engine.GameWorld;
 import engine.Sprite;
 
+import game.tanks.Player;
+import game.walls.Wall;
+import game.weapons.WeaponType;
 import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -10,7 +13,7 @@ import javafx.scene.Scene;
 public class TankGameWorld extends GameWorld {
 
     private final double wallWidth = 5;
-    private final boolean mouseAim = false;
+    private final boolean mouseAim = true;
     private Player myPlayer;
     private double currentMouseX = 0;
     private double currentMouseY = 0;

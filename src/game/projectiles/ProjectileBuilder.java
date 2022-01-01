@@ -1,4 +1,6 @@
-package game;
+package game.projectiles;
+
+import game.weapons.Weapon;
 
 public class ProjectileBuilder {
 

@@ -1,7 +1,10 @@
-package game;
+package game.tanks;
 
 import engine.GameWorld;
 import engine.Sprite;
+import game.weapons.Weapon;
+import game.weapons.WeaponRack;
+import game.weapons.WeaponType;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -12,14 +15,14 @@ public class Tank extends Sprite {
 
     GameWorld gameWorld;
 
-    double tankHealth = 10;
-    double tankRadius = 10;
-    double frontAngleDegrees = 0;
+    public double tankHealth = 10;
+    public double tankRadius = 10;
+    public double frontAngleDegrees = 0;
 
     // Movement parameters
-    double tankForwardSpeed = 2;
-    double tankBackwardSpeed = 1.5;
-    double tankTurnSpeed = 3;
+    public double tankForwardSpeed = 2;
+    public double tankBackwardSpeed = 1.5;
+    public double tankTurnSpeed = 3;
 
     // Weapon
     public WeaponRack weaponRack = null;

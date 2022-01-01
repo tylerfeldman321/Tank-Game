@@ -1,4 +1,6 @@
-package game;
+package game.weapons;
+
+import game.projectiles.ProjectileType;
 
 public class WeaponType {
     public static final Weapon BASIC = new Weapon(null, 0,

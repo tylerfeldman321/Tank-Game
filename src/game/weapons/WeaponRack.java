@@ -1,6 +1,7 @@
-package game;
+package game.weapons;
 
 import engine.GameWorld;
+import game.tanks.Tank;
 
 import java.util.Arrays;
 import java.util.HashMap;

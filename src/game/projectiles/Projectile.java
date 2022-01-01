@@ -1,7 +1,9 @@
-package game;
+package game.projectiles;
 
 import engine.GameWorld;
 import engine.Sprite;
+import game.walls.Wall;
+import game.weapons.Weapon;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;

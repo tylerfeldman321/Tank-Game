@@ -1,5 +1,6 @@
-package game;
+package game.projectiles;
 
+import game.weapons.Weapon;
 import javafx.scene.paint.Color;
 
 public class Mine2 extends Projectile {

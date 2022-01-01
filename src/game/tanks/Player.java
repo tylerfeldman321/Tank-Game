@@ -1,18 +1,19 @@
-package game;
+package game.tanks;
 
 import engine.GameWorld;
+import game.TankGameWorld;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 public class Player extends Tank {
     double playerHealth = 10;
 
-    final BooleanProperty leftPressed = new SimpleBooleanProperty(false);
-    final BooleanProperty rightPressed = new SimpleBooleanProperty(false);
-    final BooleanProperty upPressed = new SimpleBooleanProperty(false);
-    final BooleanProperty downPressed = new SimpleBooleanProperty(false);
-    final BooleanProperty firePressed = new SimpleBooleanProperty(false);
-    final BooleanProperty minePressed = new SimpleBooleanProperty(false);
+    public final BooleanProperty leftPressed = new SimpleBooleanProperty(false);
+    public final BooleanProperty rightPressed = new SimpleBooleanProperty(false);
+    public final BooleanProperty upPressed = new SimpleBooleanProperty(false);
+    public final BooleanProperty downPressed = new SimpleBooleanProperty(false);
+    public final BooleanProperty firePressed = new SimpleBooleanProperty(false);
+    public final BooleanProperty minePressed = new SimpleBooleanProperty(false);
 
     public Player(GameWorld gameWorld, double centerX, double centerY) {
         super(gameWorld, centerX, centerY);
