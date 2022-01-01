@@ -33,7 +33,8 @@ public class TankGameWorld extends GameWorld {
         buildMap();
 
         myPlayer = new Player(this,300, 300);
-        myPlayer.setWeaponRack(WeaponType.BASIC, WeaponType.SHOTGUN, WeaponType.EXPLOSIVE_LAUNCHER, WeaponType.MACHINE_GUN);
+        myPlayer.setWeaponRack(WeaponType.BASIC.copy(), WeaponType.SHOTGUN.copy(),
+                WeaponType.EXPLOSIVE_LAUNCHER.copy(), WeaponType.MACHINE_GUN.copy());
         addSprites(myPlayer);
         setupInput(primaryStage);
     }

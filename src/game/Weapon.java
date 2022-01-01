@@ -95,11 +95,14 @@ public class Weapon {
 
     private boolean rapidFire;
 
+    private Projectile projectile;
+
     public Weapon(GameWorld gameWorld, double radiusFromFiringLocation,
                   Projectile projectile, double rateOfFire, int maxProjectiles, int maxAmmo,
                   int numProjectilesPerShot, double velocity, double projectileSpreadDegrees, boolean rapidFire) {
         this.gameWorld = gameWorld;
         this.projectileBuilder = new ProjectileBuilder(projectile, this);
+        this.projectile = projectile;
         this.rateOfFire = rateOfFire;
         this.maxNumProjectiles = maxProjectiles;
         this.numProjectilesPerShot = numProjectilesPerShot;
@@ -213,5 +216,10 @@ public class Weapon {
 
     public boolean isRapidFire() {
         return rapidFire;
+    }
+
+    public Weapon copy() {
+        return new Weapon(gameWorld, radiusFromFiringLocation, projectile, rateOfFire, maxNumProjectiles, maxAmmo,
+                numProjectilesPerShot, velocity, projectileSpreadDegrees, rapidFire);
     }
 }
