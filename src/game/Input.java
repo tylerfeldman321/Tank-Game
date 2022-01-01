@@ -60,11 +60,13 @@ public class Input {
         EventHandler<KeyEvent> keyPressed = keyEvent -> {
             movementControls(keyEvent, true);
             weaponSwapControls(keyEvent);
+            mineControls(keyEvent, true);
             if (!mouseAim) nonMouseAimControls(keyEvent, true);
         };
 
         EventHandler<KeyEvent> keyReleased = keyEvent -> {
             movementControls(keyEvent, false);
+            mineControls(keyEvent, false);
             if (!mouseAim) nonMouseAimControls(keyEvent, false);
         };
 
@@ -108,6 +110,13 @@ public class Input {
         if (keyEvent.getCode() == KeyCode.SPACE && player.isAlive()) {
             if (pressed && !player.firePressed.get()) player.fireWeapon();
             player.firePressed.set(pressed);
+        }
+    }
+
+    private void mineControls(KeyEvent keyEvent, boolean pressed) {
+        if (keyEvent.getCode() == KeyCode.SHIFT && player.isAlive()) {
+            if (pressed && !player.minePressed.get()) player.placeMine();
+            player.minePressed.set(pressed);
         }
     }
 }

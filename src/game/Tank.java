@@ -24,6 +24,7 @@ public class Tank extends Sprite {
     // Weapon
     public WeaponRack weaponRack = null;
     public boolean weaponRackIsSet = false;
+    public WeaponRack mineWeaponRack;
 
     public Tank(GameWorld gameWorld, double centerX, double centerY) {
         Circle circle = new Circle();
@@ -31,7 +32,7 @@ public class Tank extends Sprite {
         circle.setTranslateX(centerX);
         circle.setTranslateY(centerY);
         circle.setFill(Color.BLACK);
-        node = circle;
+        this.node = circle;
 
         // Set the collision bounds to the square circumscribed in the circle.
         // This is so that bullets won't collide with the tank that fired it
@@ -41,11 +42,12 @@ public class Tank extends Sprite {
         rect.setTranslateY(centerY - circumscribedLength);
         rect.setWidth(2 * circumscribedLength);
         rect.setHeight(2 * circumscribedLength);
-        collisionBounds = rect;
+        this.collisionBounds = rect;
 
         initializeHealth(tankHealth);
-        damage = 0;
+        this.damage = 0;
         this.gameWorld = gameWorld;
+        this.mineWeaponRack = new WeaponRack(gameWorld, this, WeaponType.MINE_LAYER);
     }
 
     public void update(GameWorld gameWorld) { ; }
@@ -69,6 +71,10 @@ public class Tank extends Sprite {
 
     public void fireWeapon() {
         if (weaponRackIsSet) weaponRack.fire(frontAngleDegrees);
+    }
+
+    public void placeMine() {
+        mineWeaponRack.fire(frontAngleDegrees + 180);
     }
 
     public void moveForward() {

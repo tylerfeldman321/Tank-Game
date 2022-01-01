@@ -170,9 +170,7 @@ public class Weapon {
     }
 
     private boolean cantFire() {
-        if (needToWaitToFireAgain()) return true;
-        if (tooManyProjectiles()) return true;
-        if (outOfAmmo()) return true;
+        if (needToWaitToFireAgain() || tooManyProjectiles() || outOfAmmo()) return true;
         return false;
     }
 

@@ -12,7 +12,7 @@ public class WeaponRack {
     private GameWorld gameWorld;
     private Tank owner;
     private Map<Integer, Weapon> weaponRack = new HashMap<>();
-    private int currentWeaponIndex = 0;
+    private int currentWeaponIndex = 1;
     private int startingIndex = 1;
 
     public WeaponRack(GameWorld gameWorld, Tank owner, List<Weapon> weaponList) {

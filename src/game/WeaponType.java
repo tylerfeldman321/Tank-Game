@@ -13,6 +13,9 @@ public class WeaponType {
     public static final Weapon MACHINE_GUN = new Weapon(null, 0,
             ProjectileType.SMALL_BULLET, 8, 10, 30, 1, 3,
             30, true);
+    public static final Weapon MINE_LAYER = new Weapon(null, 0, ProjectileType.MINE,
+            3, 3, 10, 1, 0, 0,
+            false);
 }
 
 

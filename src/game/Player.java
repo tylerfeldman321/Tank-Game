@@ -12,6 +12,7 @@ public class Player extends Tank {
     final BooleanProperty upPressed = new SimpleBooleanProperty(false);
     final BooleanProperty downPressed = new SimpleBooleanProperty(false);
     final BooleanProperty firePressed = new SimpleBooleanProperty(false);
+    final BooleanProperty minePressed = new SimpleBooleanProperty(false);
 
     public Player(GameWorld gameWorld, double centerX, double centerY) {
         super(gameWorld, centerX, centerY);
