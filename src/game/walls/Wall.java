@@ -3,11 +3,18 @@ package game.walls;
 import engine.GameWorld;
 import engine.Sprite;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Wall extends Sprite {
+public abstract class Wall extends Sprite {
 
-    public Wall(double startX, double startY, double endX, double endY, double width) {
+    /**
+     * Whether this bounces projectiles off it
+     */
+    private boolean bouncy;
+
+    public Wall(double startX, double startY, double endX, double endY, double width, double health, double damage,
+                boolean isInvincible, boolean bouncy, Color color) {
         Rectangle rect = new Rectangle();
 
         assert(startX == endX || startY == endY);
@@ -29,14 +36,21 @@ public class Wall extends Sprite {
             rect.setWidth(Math.abs(startX - endX));
         }
 
+        rect.setFill(color);
         collisionBounds = rect;
         node = rect;
 
-        initializeHealth(10);
-        damage = 0;
-        isInvincible = true;
+        initializeHealth(health);
+        this.damage = damage;
+        this.isInvincible = isInvincible;
+        this.bouncy = bouncy;
     }
 
     @Override
     public void update(GameWorld gameWorld) { }
+
+    public boolean isBouncy() {
+        return this.bouncy;
+    }
+
 }

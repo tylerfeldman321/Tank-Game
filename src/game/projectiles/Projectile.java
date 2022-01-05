@@ -94,7 +94,7 @@ public class Projectile extends Sprite {
         if (other instanceof Projectile && (!collidesWithOtherProjectiles || !((Projectile) other).collidesWithOtherProjectiles)) {
             return;
         }
-        else if (other instanceof Wall && bounce) {
+        else if (other instanceof Wall && bounce && ((Wall) other).isBouncy()) {
             bounceOffWall((Wall)other);
             return;
         }

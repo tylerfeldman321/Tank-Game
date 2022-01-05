@@ -4,6 +4,8 @@ import engine.GameWorld;
 import engine.Sprite;
 
 import game.tanks.Player;
+import game.walls.DestructableWall;
+import game.walls.PermanentWall;
 import game.walls.Wall;
 import game.weapons.WeaponType;
 import javafx.stage.Stage;
@@ -74,10 +76,10 @@ public class TankGameWorld extends GameWorld {
     }
 
     private void buildMapBorder() {
-        Wall leftWall = new Wall(0, 0, 0, getGameSurface().getHeight(), wallWidth);
-        Wall rightWall = new Wall(getGameSurface().getWidth()-wallWidth, 0, getGameSurface().getWidth()-wallWidth, getGameSurface().getHeight(), wallWidth);
-        Wall topWall = new Wall(0, 0, getGameSurface().getWidth(), 0, wallWidth);
-        Wall bottomWall = new Wall(0, getGameSurface().getHeight()-wallWidth, getGameSurface().getWidth(), getGameSurface().getHeight()-wallWidth, wallWidth);
+        Wall leftWall = new PermanentWall(0, 0, 0, getGameSurface().getHeight(), wallWidth);
+        Wall rightWall = new PermanentWall(getGameSurface().getWidth()-wallWidth, 0, getGameSurface().getWidth()-wallWidth, getGameSurface().getHeight(), wallWidth);
+        Wall topWall = new PermanentWall(0, 0, getGameSurface().getWidth(), 0, wallWidth);
+        Wall bottomWall = new PermanentWall(0, getGameSurface().getHeight()-wallWidth, getGameSurface().getWidth(), getGameSurface().getHeight()-wallWidth, wallWidth);
         addSprites(leftWall, rightWall, topWall, bottomWall);
     }
 
